@@ -23,7 +23,6 @@ router.get("/seller-catalog/:seller_id", auth, async (req, res) => {
     if (!seller || seller.type != "seller") {
       return res.status(400).json({ message: "Seller not found" });
     }
-
     const catalog = await Catlog.findOne({ seller_id: id });
     res.send(catalog);
   } catch (err) {

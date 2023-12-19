@@ -35,12 +35,14 @@ router.post("/create-catalog", auth, async (req, res) => {
 
     await newCatalog.save();
     console.log(sellerId, userType);
-    res.status(200).json({ message: "Catalog created successfully", id:sellerId });
+    // res.status(200).json({ message: "Catalog created successfully", id:sellerId });
+    res.status(200).json({ message: "Catalog created successfully" });
   } catch (err) {
     res.status(400).send("An error has occured" + err);
   }
 });
 
+// extra API
 router.post("/create-products", auth, async (req, res) => {
   try {
     // const seller_id = req.user.userId;
@@ -66,15 +68,15 @@ router.post("/create-products", auth, async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
+// another extra API
 router.get('/allproducts', auth, async (req, res)=>{
     const products = await Product.find();
     res.send(products);
 })
 
 router.get('/orders', auth, async(req, res)=>{
-  try{const userId = req.user.userId;
-  const orders = await Order.find({id:userId});
+  try{const sellerId = req.user.userId;
+  const orders = await Order.find({seller:sellerId});
   res.json(orders);}catch{(err)=>{
     res.status(400).send("There's an error somewhere here:"+err);
   }}

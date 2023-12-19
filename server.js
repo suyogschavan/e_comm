@@ -12,8 +12,8 @@ const app = express();
 const usersRouter = require('./routes/users')
 const buyersRouter = require('./routes/buyers')
 const productRouter = require('./routes/products')
-const catlogsRouter = require('./routes/catlogs')
-const ordersRouter = require('./routes/orders');
+// const catlogsRouter = require('./routes/catlogs')
+// const ordersRouter = require('./routes/orders');
 const sellerRouter = require('./routes/sellers');
 // const authJWT = require("./helpers/jwt");
 
