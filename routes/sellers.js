@@ -67,21 +67,16 @@ router.post("/create-products", auth, async (req, res) => {
       res.status(400).send("Product already exists with name " + name);
     }
 
-    // const user_type = req.user.userType;
-    // if (user_type != 'seller') {
-    //   res.status(400).send('User is not a seller');
-    // }
-
     const newProduct = new Product({
       name: name,
       price: price,
     });
 
-    await newProduct.save();
-    res.json({ message: "Product added successfully" });
+    await newProduct.save().then(()=>{res.json({ message: "Product added successfully" });})
+    
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    // console.error(error);
+    res.status(400).json({ message: "Internal Server Error" });
   }
 });
 // another extra API
