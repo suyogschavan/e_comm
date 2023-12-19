@@ -3,9 +3,8 @@ const bcrypt = require("bcryptjs");
 const router = express.Router();
 const { User } = require("../models/users");
 const jwt = require('jsonwebtoken');
-const auth = require('../helpers/jwt');
 
-router.post("/auth/register", async (req, res) => {
+router.post("/register", async (req, res) => {
   const { username, password, type } = req.body;
 
   if(!username || !password || !type){
@@ -28,22 +27,8 @@ router.post("/auth/register", async (req, res) => {
   // res.status(200).json(newUser);
 });
 
-// // all sellers
-// router.get("/buyer/list-of-sellers", auth,async (req, res) => {
-//   const user = await User.find({ type: "seller" }).select("username");
-//   res.send(user);
-// });
 
-// for perticular seller
-router.get("buyer/seller-info/:id", auth,async (req, res) => {
-  const user = await User.findById(req.params.id);
-  if (!user) {
-    res.send("User with this ID does not exists.");
-  }
-  res.status(200).send(user);
-});
-
-router.post("/auth/login", async (req, res) => {
+router.post("/login", async (req, res) => {
   const user = await User.findOne({username:req.body.username});
   if(!user){
     return res.status(400).send('Wrong username or password');

@@ -8,25 +8,26 @@ const PORT = process.env.PORT || 3000;
 const URI = process.env.URI;
 const app = express();
 
-// all routes
-const usersRouter = require('./routes/users')
+const usersRouter = require('./routes/auth')
 const buyersRouter = require('./routes/buyers')
-const productRouter = require('./routes/products')
-// const catlogsRouter = require('./routes/catlogs')
-// const ordersRouter = require('./routes/orders');
 const sellerRouter = require('./routes/sellers');
 // const authJWT = require("./helpers/jwt");
 
 app.use(bodyParser.json()); 
 app.use(morgan("tiny"));
 
-app.use('/api/products', productRouter);
-app.use('/api', usersRouter);
+// app.use('/api/products', productRouter);
+// const api='api';
+
+
+// all routes
+app.use('/api/auth', usersRouter);
 app.use('/api/buyer', buyersRouter);
 app.use('/api/seller', sellerRouter);
 
 // app.use(authJWT); 
 
+// mongodb connection 
 mongoose
   .connect(URI)
   .then(() => {
