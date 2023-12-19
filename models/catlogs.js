@@ -1,12 +1,11 @@
 const mongoose = require('mongoose');
 const catlogsSchema = mongoose.Schema({
-    seller: {
+    seller_id: {
       type:mongoose.Types.ObjectId,
-      ref:'Users',
     },
     products: [{
       type:mongoose.Types.ObjectId,
-      ref:'products',
+      ref:'Products',
     }],
   });
 

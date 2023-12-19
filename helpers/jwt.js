@@ -1,39 +1,31 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
-// const config = process.env;
-
-function getToken(req) {
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.split(" ")[0] === "Bearer"
-  ) {
-    return req.headers.authorization.split(" ")[1];
-  }
-  return null;
-}
-
-
-// Middleware to extract user information from the token
 const authenticateUser = async (req, res, next) => {
-  const token = getToken(req);
+  const temp = req.headers.authorization;
+  if(!temp){return res.status(401).json({ error: 'Unauthorized - Token not provided.' });}
 
-  if (!token) {
-    return res
-      .status(401)
-      .json({ error: "Unauthorized - Token not provided." });
-  }
+  const token = req.headers.authorization.split(' ')[1];
+
+  // if (!token) {
+  //   return res.status(401).json({ error: 'Unauthorized - Token not provided.' });
+  // }
+
+  // console.log('Received Token:', token);
 
   try {
     const decodedToken = jwt.verify(token, process.env.secret); 
+    // console.log('Decoded Token:', decodedToken);
     req.user = {
-      userId: decodedToken.userId,
-      userType: decodedToken.userType,
+      userId: decodedToken.user._id,
+      userType: decodedToken.user.type,
     };
+    // console.log('req.user:', req.user);
     next();
   } catch (error) {
     console.error(error);
-    res.status(401).json({ error: "Unauthorized - Invalid token." });
+    return res.status(401).json({ error: 'Unauthorized - Invalid token.' });
   }
 };
+
 
 module.exports = authenticateUser;
